@@ -1,81 +1,175 @@
-# Cliente
+# servidor
 
 
 
+## links
 
 
-## formulario
 
-El elemento HTML para definir un formulario Web se especifica con la etiqueta **<FORM>** y tiene este aspecto:
+- [Introduction to Python: Absolute Beginner](https://www.edx.org/es/course/introduction-to-python-absolute-beginner) (edX).
+- https://learning.edx.org/course/course-v1:UAMx+WebApp+1T2019a/
+
+- [Python 3 para no programadores](https://www.amazon.es/Python-3-para-no-programadores-ebook/dp/B00FPW1QVA) ([Segunda edición](https://www.amazon.es/Python-para-Programadores-2ª-Edición-ebook/dp/B013VVSNSU/)).
+
+- Curso [Maestro de Python 3: Aprende Desde Cero](https://www.udemy.com/python-3-al-completo-desde-cero/) (Udemy).
+
+- [Curso de Python Básico Gratis](https://codigofacilito.com/cursos/Python) (Web Código Facilito).
+
+
+
+## venv
+
+
+
+requirements.txt
 
 ```
-<**FORM** ACTION="url" METHOD="método de envío">  <INPUT> | <SELECT> | <TEXTAREA> | <BUTTON> | <DATALIST> | <OUTPUT></**FORM**>
+flask
 ```
 
-Estos son los **atributos** que encontramos en la etiqueta FORM:
 
-**ACTION**: la URL de un programa que procesa la petición en el lado servidor.
 
-**METHOD**: el método HTTP que el navegador utiliza para mandar los datos del formulario del cliente al servidor. Hay dos opciones:
+```bash
+pk@pk:~$ type vvvv
+vvvv () 
+{ 
+    deactivate;
+    python3.8 -m venv ./.venv;
+    source ./.venv/bin/activate;
+    pip install -r requirements.txt;
+    python app.py
+}
+pk@pk:~$ 
+pk@pk:~$ 
 
-- ***post***: corresponde al método POST HTTP, por el cual los datos del formulario son incluidos en el cuerpo del  formulario y son enviados al servidor. Los más habitual es elegir este  método.
-- ***get***: corresponde al método GET HTTP, por el cual los datos del formulario son adjuntados a la URI del atributo *action* con un '?' como separador, y la URI resultante es enviada al servidor.
-
-### Los elementos del formulario
-
-Los **elementos** que se pueden tener en un formulario son:
-
-- **<INPUT>**: entrada o campo del formulario. Los tipos de input más utilizados son:
-
-- - ***text***: cuadro de texto.
-  - ***password***: cuadro de texto para introducir contraseña (no se ve contenido).
-  - ***hidden***: texto oculto, el navegador no lo visualiza en el documento Web, sin embargo si vemos su código podemos ver su contenido.
-  - ***checkbox***: casilla de verificación.
-  - ***radio***: casilla de selección.
-  - ***submit***: botón de envío del contenido del formulatio al servidor.
-  - ***reset***: botón que facilita el borrado de los datos completados en el formulario.
-  - Otros tipos que aparecieron con la version de HTML5 son: *color*, *date*, *datetime-local*, *email*, *month*, *number*, *range*, *search*, *tel*, *time*, *url* y *week*.
-
-- **<SELECT>**: lista de selección con múltiples valores.
-
-- **<TEXTAREA>**: campo de texto multilínea.
-
-- **<BUTTON>**: botón de acción.
-
-- **<DATALIST>**: facilita un listado de opciones predeterminadas para un cuadro de texto.
-
-- **<OUTPUT>**: facilita mostrar la salida a un calculo realizado en el formulario.
-
-Al igual que la etiqueta FORM, cada uno de los elementos del formulario tiene sus propios atributos. A modo de ejemplo, estos son los más habituales del elemento <INPUT> cuadro de texto (*text*):
-
-- *id*: identificador del elemento.
-- *name*: nombre del elemento. Lo habitual es que tenga el mismo valor que el atributo "id".
-- *type*: para indicar el tipo (text, password, hidden, etc).
-- *required*: indica si es imprescindible poner información en  el campo, se pone en el campo sólo la palabra "required" (tambien es  posible escribiendo required="true").
-- *placeholder*: da información del dato que se espera  introduzca el usuario (aparece en el cuadro de texto hasta que el  usuario hace click en él).
-- *size*: tamaño del cuadro de texto.
-- *maxlength*: longitud máxima del texto.
-- *value*: para inicializar con dicho valor el cuadro de texto.
-
-Mas información en [W3C Forms](https://www.w3.org/html/wiki/Elements/form).
+```
 
 
 
+## flask
+
+app.py
+
+```python
+import sys
+
+from flask import Flask,request
+app = Flask(__name__)
+
+
+@app.route('/')
+def index():
+    user_agent = request.headers.get('User-Agent')
+    return '<p>Your browser is %s</p>' % user_agent
+
+@app.route('/processLogin', methods=['POST'])
+def process_login():
+       missing = []
+       fields = ['email', 'passwd', 'login_submit']
+       for field in fields:
+              value = request.form.get(field, None)
+              if value is None:
+                  missing.append(field)
+       if missing:
+              return "Warning: Some fields are missing"
+
+       return '<!DOCTYPE html> ' \
+           '<html lang="es">' \
+           '<head>' \
+           '<link href="static/css/my-socnet-style.css" rel="stylesheet" type="text/css"/>' \
+           '<title> Home - SocNet </title>' \
+           '</head>' \
+           '<body> <div id ="container">' \
+           '<a href="/"> SocNet </a> | <a href="home"> Home </a> | <a href="login"> Log In </a> | <a href="signup"> Sign Up </a>' \
+           '<h1>Data from Form: Login</h1>' \
+           '<form><label>email: ' + request.form['email'] + \
+           '</label><br><label>passwd: ' + request.form['passwd'] + \
+           '</label></form></div></body>' \
+           '</html>'
+
+
+if __name__ == '__main__':
+    if sys.platform == 'ubuntu':  
+        app.run(debug=True, port=8080)
+    else:
+        app.run(debug=True, port=80)
+```
+
+index.html
+
+```
+
+```
 
 
 
 
-Vamos a continuar con nuestra **aplicación web que simula una Red Social**.
 
-En ella vamos a incluir enseguida el formulario [login.html](https://courses.edx.org/asset-v1:UAMx+WebApp+1T2019a+type@asset+block/login.html), pero primero vamos a analizar las partes más importantes que tiene este código en relación con el formulario:
+## json
 
-<form action="processLogin" method="post" name="login">    <label for="email">Email</label>    <div class="inputs">        <input id="email" name="email" required="true" placeholder="Email" size="80" type="text" value=""/>    </div>    <label for="passwd">Password</label>    <div class="inputs">        <input id="passwd" name="passwd" required="true" placeholder="Password" size="80" type="password" value=""/>    </div>    <label for="remember_me">        <input id="remember_me" name="remember_me" type="checkbox" value="y"/>        Remember Me    </label>    <div class="inputs">        <input id="login_submit" name="login_submit" type="submit" value="Log In"/>    </div></form>
 
-1. Se indica en el elemento FORM que será procesado el formulario por "**processLogin**". Coincide con el nombre de una función en el fichero server.py que  precisamente hace un procesado sencillo del formulario que recibe (por  ahora imprime los datos recibidos en un documento web). Más adelante te  explicaremos los detalles de este fichero server.py; por ahora,  utilízalo como se te indica en el vídeo.
-2. Se indica que el método de envío es **POST HTTP**.
-3. El formulario tiene dos campos para entrada de texto (cuadro de texto): "**email**" (email del usuario en la red social), "**passwd**" (password o contraseña). También tiene una casilla de verificación o *checkbox* "**remember_me**" para indicar si se desea recordar la contraseña.
-4. Para cada campo del formulario se pone el nombre en un elemento del tipo ***label\***. Esto será útil cuando demos enseguida formato con CSS.
-5. Los campos usuario y contraseña no pueden estar vacíos, por ello se especifica el atributo "*required=true*" en ambos.
-6. Para ayudar al usuario de la Red Social se describe para cada campo la información a escribir con el atributo "*placeholder*" del formulario.
-7. Cada campo del formulario tiene atributo *id* con el mismo valor que el atributo *name*.
-8. Cada campo del formulario está dentro de una división de clase llamada *inputs*. Veremos la utilidad de esto cuando demos formato con CSS.
+
+Las estructuras de JSON tienen una traducción directa a estructuras Python:
+
+- Los objetos JSON son representados como diccionarios en Python
+- Los arrays JSON son representados como listas en Python
+- true y false en JSON son valores del tipo *boolean* en Python
+- Las cadenas en JSON son cadenas en Python
+- Los números en JSON son *float* o *integer*, según corresponda, en Python
+
+Por este motivo, las funciones para leer y escribir ficheros JSON son muy sencillas de utilizar. En ambos casos recurrimos a la biblioteca  JSON, así que lo primero que debemos hacer es:
+
+```
+import json
+```
+
+### Lectura
+
+La función para leer un fichero JSON es json.load. Como parámetro un fichero, así que una forma normal de usarla es:
+
+```
+with open(“nombre_fichero.json”, 'r') as f:
+   data = json.load(f)
+```
+
+Después de ejecutar esto, la variable *data* contendrá un  diccionario con los datos cargados del fichero. Si por ejemplo  hubiéramos cargado el fichero con los datos del usuario *James*  visto en la sección anterior, ahora data[‘user_name’] sería “James” y  data[‘messages’] sería una lista Python con los mensajes publicados por  James.
+
+### Escritura
+
+Volcar una estructura Python a un fichero JSON es igual de sencillo.  Supongamos que tenemos la siguiente inicialización de la variable datos:
+
+```
+datos = {  "user_name": "James",  "password": “007”,  "messages": [(1532648502.113984, “mensaje 1”), (1532648642.729385,   “mensaje 1”)],   "email": session['email'],  "friends": session['friends']}
+```
+
+Entonces guardar los datos en el fichero correspondiente sería:
+
+```
+with open(“james.bond@mi6.uk”, 'w') as f:  json.dump(datos, f)
+```
+
+
+
+
+
+
+
+## sesiones
+
+
+
+Ya hemos dicho en varias  oportunidades que el protocolo HTTP no tiene estado, que no recuerda.  ¿Qué significa eso en la práctica? Que necesitamos información adicional para implementar una “conversación” entre cliente y servidor. Esta idea de conversación, donde ambas partes recuerdan lo que han hablado hasta  el momento, se llama **sesión**.
+
+Aunque el concepto o la duración de una sesión puede variar en distintos entornos, básicamente es el conjunto de interacciones entre cliente y servidor en un lapso de tiempo razonable.
+
+La primera vez que un cliente realiza una petición, después de un tiempo sin interactuar, el servidor **abre una sesión**. Las subsecuentes peticiones desde ese cliente se consideran dentro de  la misma sesión. Si pasa mucho tiempo sin que el cliente realice una  petición, el servidor asume que ya no está conectado y termina la  sesión.
+
+La biblioteca Flask nos ofrece este concepto de sesión. Pero si HTTP  no tiene información específica que permita identificar al usuario o la  sesión, ¿cómo sabe Flask a qué usuario corresponde una determinada  petición?
+
+Existen al menos 3 formas de que una petición HTTP transporte información que permita identificar al usuario o la sesión:
+
+- **Cookies**: las *cookies* son pequeños ficheros que se adjuntan a una respuesta HTTP, con información de identificación de usuario. En sucesivas peticiones HTTP, el navegador incluye ese  fichero automáticamente, por lo que el servidor podrá tener la  identificación de ese usuario.
+- **Campos ocultos**: en los formularios que el servidor envía a cliente para que sean completados, incluyo un campo del tipo *input* que no se muestra al usuario; ese campo lleva información que cuando  los datos del formulario se envíen de vuelta al servidor le servirá para identificar al cliente.
+- **Reescritura de URLs**: aunque nos parezcan iguales,  el servidor introduce automáticamente pequeñas modificaciones a las  URLs; de esta forma, la URL específica que solicite permitirá al  servidor identificar al cliente.
+
+La buena noticia es que, generalmente, el mecanismo que se use para  transportar la información de sesión no es visible al desarrollador de  la aplicación web. Esto es exactamente lo que ocurre con el soporte de  sesiones que nos ofrece Flask, y que veremos a continuación.
