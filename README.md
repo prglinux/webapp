@@ -11,7 +11,7 @@
 
 
 - [Introduction to Python: Absolute Beginner](https://www.edx.org/es/course/introduction-to-python-absolute-beginner) (edX).
-- [Introducción al desarrollo de aplicaciones web](https://learning.edx.org/course/course-v1:UAMx+WebApp+1T2019a/)(edx) ** muy bueno
+- [Introducción al desarrollo de aplicaciones web](https://learning.edx.org/course/course-v1:UAMx+WebApp+1T2019a/)(edx) ** de aqui es la documentacion
 
 - [Python 3 para no programadores](https://www.amazon.es/Python-3-para-no-programadores-ebook/dp/B00FPW1QVA) ([Segunda edición](https://www.amazon.es/Python-para-Programadores-2ª-Edición-ebook/dp/B013VVSNSU/)).
 
