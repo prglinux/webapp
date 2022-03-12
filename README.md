@@ -486,3 +486,80 @@ Esto se utiliza tan habitualmente que incluso existe una sintaxis abreviada para
 $(function() {   // Tú código irá aquí});
 ```
 
+
+
+
+Para reforzar los conocimientos adquiridos durante la lección 2, le recomendamos visitar los siguientes sitios: 
+
+Página del gestor de paquetes que incluye Python
+
+https://pypi.org 
+
+https://realpython.com/what-is-pip/ 
+
+https://realpython.com/pipenv-guide/ 
+
+https://docs.scipy.org/doc/numpy-1.14.5/reference/ https://matplotlib.org 
+
+https://www.edureka.co/blog/python-libraries/ 
+
+https://packaging.python.org/tutorials/installing-packages/ 
+
+https://packaging.python.org/tutorials/packaging-projects/ 
+
+https://numpy.org/doc/stable/user/quickstart.html 
+
+https://numpy.org/doc/stable/user/absolute_beginners.html 
+
+https://www.geeksforgeeks.org/__init__-in-python/ 
+
+https://www.w3schools.com/python/python_classes.asp 
+
+https://www.w3schools.com/python/python_inheritance.asp https://es.wikipedia.org/wiki/Clase_(informática) 
+
+https://es.wikipedia.org/wiki/Instancia_(informática) 
+
+https://es.wikipedia.org/wiki/Constructor_(informática) 
+
+https://www.w3schools.com/python/python_classes.asp 
+
+https://www.w3schools.com/python/python_inheritance.asp 
+
+https://www.programiz.com/python-programming/matrix https://matrix.reshish.com/es/multiplication.php 
+
+https://realpython.com/python-modules-packages/#python-modules-overview 
+
+https://www.geeksforgeeks.org/python-classes-and-objects/ 
+
+Python Modules and Packages – An Introduction – Real Python
+
+Python packages: How to create and import them?
+
+Python Tutorial Python pip 
+
+Python PIP Tutorial
+
+pandas: powerful Python data analysis toolkit
+
+numpy · PyPI
+
+El Ingeniero González en cada video iba mostrando y explicando código de Python, lo mas recomendable es que usted vaya replicando el mismo. 
+
+A continuación se comparte el código que se utilizó y explicó en los videos de lección 5 (es importante que usted ya haya instalado Python para correr este código):
+
+Dar clic aquí para descargar código
+
+Dar clic aquí para descargar código
+
+Dar clic aquí para descargar código
+
+Dar clic aquí para descargar código
+
+Importante: el código fue creado siguiendo el siguiente formato: 
+
+ PrintX_DIAPOSITIVAY_PZ
+
+Donde X es el orden del programa en cuanto a que momento se utiliza, Y es la diapositiva donde se usa y Z la presentación.
+
+
+
