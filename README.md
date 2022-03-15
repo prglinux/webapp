@@ -1,5 +1,303 @@
 
 
+# webscarpt
+
+
+### Beautiful Soup
+
+
+
+Como se observó en esta unidad, **BeautifulSoup** toma el  contenido de la página web y lo interpreta generando una estructura más  manejable. Si bien nos enfocaremos en las etiquetas principales, vale la pena mencionar los tipos de objetos producidos:
+
+- **Tag**: es el objeto que nos interesa principalmente y corresponde a las etiquetas en el documento de HTML. ([documentación](https://www.crummy.com/software/BeautifulSoup/bs4/doc/#tag))
+- **NavigableString**: esta cadena de texto representa el contenido dentro de una etiqueta.  Tiene capacidades extras relacionadas con la navegación dentro de la  estructura. ([documentación](https://www.crummy.com/software/BeautifulSoup/bs4/doc/#navigablestring))
+- **BeautifulSoup**: este objeto representa el documento HTML interpretado como una  estructura jerárquica. Para fines convencionales, puede ser considerado  como objeto de tipo tag, soportando los mismos tipos de métodos. ([documentación](https://www.crummy.com/software/BeautifulSoup/bs4/doc/#beautifulsoup))
+- **Comment**: este objeto es un tipo especial de NavigatableString, que se representa con un formato especial al momento de impresión.  
+
+En resumen, se ha descrito de forma general el funcionamiento del módulo de BeautifulSoup para, en conjunto de la herramiento de  peticiones requests, interpretar la estructura de un documento HTML. En  las siguientes unidades se expandirá la información sobre las funciones, métodos y atributos relacionados con la extracción de los datos de  interés. Sin embargo, existen propiedades y capacidades que pueden  resultar interesantes como elementos auxiliares en el árbol generado, o  notaciones abreviadas que sirven para crear un código más compacto.
+
+------
+
+*Referencias*:
+
+​       
+
+- Reitz, K. (2020). *Requests: HTTP for Humans.*
+  https://docs.python-requests.org/en/master/
+- Richardson, L. (2020). *Beautiful Soup Documentation.* 
+  https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+
+
+
+### Iterando sobre los elementos en **Beautiful Soup**
+
+
+
+Hasta el momento se han visto dos principales maneras de cómo se  puede utilizar el árbol jerárquico producido por BeautifulSoup con base a una página web: utilizando métodos de búsqueda, y navegando manualmente por los elementos, cada uno con sus ventajas y desventajas. Sin  embargo, podemos utilizar un enfoque intermedio entre estos dos extremos y es el de utilizar métodos de iteración sobre los elementos. De esta  forma podemos tener la ventaja de la flexibilidad de la búsqueda, pero  con el poder de ajustar la selección de los elementos de forma manual.
+
+Para lograr este objetivo, BeautifulSoup cuenta con diferentes herramientas y métodos,siendo uno de ellos el atributo “**descendants**”. Su comportamiento es similar al de “**children**” pero no solo se limita a los elementos inmediatos, si no que enlista  todos los elementos, es decir, los hijos, los hijos de los hijos, etc.
+
+```python
+# Ejemplo 1
+import requests
+from bs4 import BeautifulSoup
+
+
+page = requests.get(“https://datolok.github.io/python-edx/
+webscrapping/simple.html”)
+soup = BeautifulSoup(page.content, ‘html.parser’)
+
+
+for element in soup.descendants:
+     print("Element {}: \n {}".format(item, element))
+```
+
+En este código se carga la página que se ha utilizado de ejemplo y se imprimen todos los elementos contenidos por medio de un ciclo for. Esto se puede combinar con otros conceptos, como la de expresiones  regulares, para identificar palabras claves o patrones de información.
+
+Este proceso de búsqueda dentro de un elemento en particular puede  aplicarse al resultado de otros procesos como el de búsqueda o  navegación.
+
+```python
+# Ejemplo 2
+import requests
+from bs4 import BeautifulSoup
+
+
+page = requests.get(“https://datolok.github.io/python-edx/
+webscrapping/simple.html”)
+soup = BeautifulSoup(page.content, ‘html.parser’)
+
+
+for p in soup.find_all(“p”):
+    if “contenido” in p.get_text():
+        print(p.get_text())
+```
+
+En este código se encuentran todos los elementos de tipo párrafo  <p> en el documento, se iteran sobre todos los resultados y se  imprimen aquellos que contengan la palabra “contenido”. Como se puede  observar esto abre un abanico de nuevas posibilidades para automatizar  nuestro proceso de búsqueda y no depender demasiado en que la estructura de la página web no varíe.
+
+Igualmente, no estamos limitados a solamente definir nuestro criterio de selección en la iteración con el contenido del texto, también  podemos acceder a los atributos de los elementos utilizando el método  “get()”.
+
+```python
+# Ejemplo 3
+import requests
+from bs4 import BeautifulSoup
+
+
+page = requests.get(“https://datolok.github.io/python-edx/
+webscrapping/simple.html”)
+soup = BeautifulSoup(page.content, ‘html.parser’)
+
+
+for p in soup.find_all(“p”):
+    if p.get("class") and "outer-text" in p.get("class")
+        print(p.get(“class”),p.get_text())
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```python
+'''
+http://127.0.0.1:8080/songs/all
+
+
+import requests
+cancion={
+    'Artista':'dfasfd',
+    'Nombre':'jojo'
+}
+
+respuesta=requests.get('http://127.0.0.1:8080/songs/all')
+print('\n',respuesta.content.decode())
+
+respuesta=requests.post('http://127.0.0.1:8080/songs/new',json=cancion)
+print('\n',respuesta.content.decode())
+
+respuesta=requests.get('http://127.0.0.1:8080/songs/all')
+print('\n',respuesta.content.decode())
+
+respuesta=requests.patch('http://127.0.0.1:8080/songs/2', json={'Artista':'jijiji'})
+print('\n',respuesta.content.decode())
+
+respuesta=requests.get('http://127.0.0.1:8080/songs/all')
+print('\n',respuesta.content.decode())
+
+
+'''
+
+
+# Ejemplo API
+from flask import Flask, request, jsonify
+import json
+
+app = Flask(__name__)
+
+song_db = [
+    {
+    "id": 0,
+     "Artista": "Air Supply",
+     "Nombre": "Making Love Out of Nothing at All"
+     },
+     {
+     "id": 1,
+     "Artista": "Bonnie Tyle",
+     "Nombre": "Total Eclipse Of The Heart"
+     },
+     {
+     "id": 2,
+     "Artista": "George Michael",
+     "Nombre": "Careless Whisper"
+     },
+     {
+     "id": 3,
+     "Artista": "Berlin",
+     "Nombre": "Take My Breath Away"
+     },
+     {
+     "id": 4,
+     "Artista": "Queen",
+     "Nombre": "Bohemian Rhapsody"
+     }
+ ]
+
+
+# GET | returns the whole catalog
+@app.route("/songs/all", methods=["GET"])
+def get_all():
+    return jsonify(song_db), 200
+
+# GET | returns an entry by an id
+
+
+@app.route("/songs/<int:song_id>", methods=["GET"])
+def get_song(song_id):
+    song_result = next(
+        (song for song in song_db if song["id"] == song_id), None)
+
+    if song_result:
+        return (jsonify(song_result), 200)
+    else:
+        return "404 Not Found", 404
+# GET | returns all songs with the same name
+
+
+@app.route("/songs/search/<string:song_name>", methods=["GET"])
+def search_song(song_name):
+    songs = [song for song in song_db if song_name in song["Nombre"]]
+
+    if songs:
+        return (jsonify(songs), 200)
+    else:
+        return "404 Not Found", 404
+
+# POST | creates a new entry in the catalog
+
+
+@app.route("/songs/new", methods=["POST"])
+def post_song():
+
+    if request.data:
+        song_data = json.loads(request.data)
+
+        song_id = max([song['id'] for song in song_db])+1
+        song_artist = song_data["Artista"]
+        song_name = song_data["Nombre"]
+
+        new_song = {
+            "id": song_id,
+            "Artista": song_artist,
+            "Nombre": song_name
+  	  }
+
+        song_db.append(new_song)
+
+        return jsonify(new_song), 200
+    else:
+        return "400 Bad Request", 400
+
+# DELETE | deletes an entry in the catalog by an id
+
+
+@app.route("/songs/<int:song_id>", methods=["DELETE"])
+def delete_song(song_id):
+
+    for idx, song in enumerate(song_db):
+        if song["id"] == song_id:
+            song_db.pop(idx)
+
+            return "Register Deleted", 200
+
+    return "Not Found", 404
+
+# PUT | replaces an entry in the catalog, creates a new entry if it doesn't exist
+
+
+@app.route("/songs/<int:song_id>", methods=["PUT"])
+def put_song(song_id):
+    if request.data:
+         song_data = json.loads(request.data)
+
+         song_artist = song_data["Artista"]
+         song_name = song_data["Nombre"]
+
+         edit_song = {
+             "id": song_id,
+             "Artista": song_artist,
+             "Nombre": song_name
+     	}
+
+         for idx, song in enumerate(song_db):
+             if song["id"] == song_id:
+                 song_db[idx] = edit_song
+
+                 return (jsonify(edit_song), 200)
+
+         edit_song["id"] = max([song['id'] for song in song_db])+1
+         song_db.append(edit_song)
+
+         return (jsonify(edit_song), 200)
+    else:
+         return "Bad Request", 400
+ 
+  
+# PATCH | edits an entry in the catalog, fails if it doesn't exist
+@app.route("/songs/<int:song_id>", methods = ["PATCH"])
+def patch_song(song_id):
+    if request.data:
+        for idx, song in enumerate(song_db):
+            if song["id"] == song_id:
+                song_data = json.loads(request.data)
+               
+                for edit_key in song_data:
+                	song[edit_key] = song_data[edit_key]
+               
+                return (jsonify(song), 200)
+    	
+        return "Not Found", 404
+    else:
+        return "Bad Request", 400
+
+if __name__=='__main__':
+    app.run(debug=True, port=8080)
+
+
+
+```
+
+
+
+
+
 
 
 # servidor
@@ -309,6 +607,13 @@ def create_user_file(name, email, passwd, passwd_confirmation):
     session['email'] = email
     return redirect(url_for("home"))
 ```
+
+
+
+
+
+
+
 
 
 
